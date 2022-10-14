@@ -39,15 +39,31 @@ class ContactoRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByNombre($text): array
-    {
+    public function findByName($text): array{
         $qb = $this -> createQueryBuilder("c")
-        ->andWhere('c.nombre LIKE :text')
-        ->setParameter('text','%'.$text.'%')
+        ->andWhere("c.nombre LIKE :text")
+        ->setParameter("text","%".$text."%")
         ->getQuery();
-        return $qb -> execute();
+        return $qb->execute();
     }
 
+    public function findByEdad($edad): array{
+        $qb = $this->createQueryBuilder('p')
+        ->andWhere('p.edad > :edad')
+        ->setParameter('edad', $edad)
+        ->getQuery();
+        return $qb->execute();
+    }
+
+    /*
+    public function findByName($text): array{
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c FROM App\Entity\Contacto c WHERE c.nombre LIKE :text'
+        )->setParameter('text', '%' . $text . '%');
+        return $query->execute();        
+    }
+    */
 //    /**
 //     * @return Contacto[] Returns an array of Contacto objects
 //     */
